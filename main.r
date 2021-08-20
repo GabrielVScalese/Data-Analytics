@@ -136,14 +136,14 @@ ggplot() + geom_bar(data = mediaUmidade, aes(x = meses,y = medias),
 
 ## Média de vento por mês no período de 2015 a  2020
 
-mediaUmidadeMeses <- function () {
+mediaVentoMeses <- function () {
   medias = c()
 
   mes = 1
   while (mes <= 12) {
     data = as.Date(cepagri$horario, format='%d/%m/%Y')
     valores = cepagri[as.double(format(data, format="%m")) == mes & as.double(format(data, format="%Y")) > 2014 & as.double(format(data, format="%Y")) < 2021, ]
-    mediaDoMes = media(valores$umid)
+    mediaDoMes = media(valores$vento)
     medias = append(medias, mediaDoMes)
 
     mes = mes + 1
@@ -152,7 +152,7 @@ mediaUmidadeMeses <- function () {
   dataFrame = data.frame(meses, medias)
 }
 
-mediaUmidade = mediaUmidadeMeses()
+mediaVento = mediaVentoMeses()
 
-ggplot() + geom_bar(data = mediaUmidade, aes(x = meses,y = medias),
-                    stat = "identity", fill = '#3399ff') + ggtitle("Média de umidade por mês no período de 2015 a 2020")
+ggplot() + geom_bar(data = mediaVento, aes(x = meses,y = medias),
+                    stat = "identity", fill = '#ffb732') + ggtitle("Média de vento por mês no período de 2015 a 2020")
