@@ -346,7 +346,7 @@ getCemMaioresTemp <- function () {
 }
 
 # Metodo que retorna uma tabela com a distribuicao das temperaturas
-distribuicaoDasTemps <- function (temps) {
+distribuicaoDasCemMaioresTemps <- function (temps) {
   quantidades <- tapply(temps$temp, temps$horario, function (valores){
     length(valores)
   })
@@ -354,7 +354,7 @@ distribuicaoDasTemps <- function (temps) {
   dataFrame = data.frame(mes = names(quantidades), quantidade = as.vector(quantidades))
 }
 
-distribuicaoDasMaioresTemps = distribuicaoDasTemps(getCemMaioresTemp())
+distribuicaoDasMaioresTemps = distribuicaoDasCemMaioresTemps(getCemMaioresTemp())
 
 porcentagens <- paste(round(100 * distribuicaoDasMaioresTemps$quantidade/ 100, 1), '%') # Obtencao da porcentagem de cada mes
 
@@ -382,7 +382,17 @@ getCemMenoresTemp <- function () {
   temps[order(temps$temp), ] # Uma outra ordenacao se torna necessaria apos a remocao de elementos
 }
 
-distribuicaoDasMenoresTemps = distribuicaoDasTemps(getCemMenoresTemp())
+# Metodo que retorna uma tabela com a distribuicao das temperaturas
+distribuicaoDasCemMenoresTemps <- function (temps) {
+  quantidades <- tapply(temps$temp, temps$horario, function (valores){
+    length(valores)
+  })
+
+  dataFrame = data.frame(Ano = names(quantidades), Quantidade = as.vector(quantidades))
+}
+
+
+distribuicaoDasMenoresTemps = distribuicaoDasCemMenoresTemps(getCemMenoresTemp())
 distribuicaoDasMenoresTemps
 
 write.csv(distribuicaoDasMenoresTemps,"./4.csv", row.names = TRUE)
