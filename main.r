@@ -248,9 +248,8 @@ theme(
 
 grafico1
 
-"""É possui observar que existe uma correlação entre temperatura e umidade, visto que com a queda de temperatura, também houve uma queda de umidade.
+"""### **Correlação entre temperatura e vento**
 
-### **Correlação entre temperatura e vento**
 """
 
 # Criação de gráfico a partir dos dados do período válido (correlação da temperatura com o vento)
@@ -266,10 +265,7 @@ theme(
 
 grafico2
 
-"""É possui observar que não existe uma correlação entre temperatura e vento, visto que com a queda de temperatura, houve uma aumento do vento.
-
-### **Correlação entre temperatura e sensação térmica**
-"""
+"""### **Correlação entre temperatura e sensação térmica**"""
 
 # Criação de gráfico a partir dos dados do período válido (correlação da temperatura com a sensação térmica)
 grafico3 <- ggplot(periodoValido, aes(x=temp, y=sensa)) +
@@ -284,10 +280,7 @@ theme(
 
 grafico3
 
-"""Analisando o gráfico, vemos que existe uma correlação entre temperatura e sensação térmica, pois, diante de um aumento ou diminuição de um destes, o outro o acompanha.
-
-### **Média de umidade por mês no período entre 2015 e 2020**
-"""
+"""### **Média de umidade por mês no período entre 2015 e 2020**"""
 
 # Metodo que retorna a media de umidade por mes no periodo entre 2015 e 2020
 mediaUmidadeMeses <- function () {
@@ -312,10 +305,7 @@ ggplot() + geom_bar(data = mediaUmidadeMeses, aes(x = factor(Mes, levels = uniqu
   axis.text = element_text(size = 13)
 )
 
-"""O mês com maior média de umidade foi fevereiro, devido a sua intensa época de chuvas em Janeiro. Já o mês com menor média foi agosto, devido a uma época de seca durante o mês de julho.
-
-### **Média de vento por mês no período entre 2015 e 2020**
-"""
+"""### **Média de vento por mês no período entre 2015 e 2020**"""
 
 # Metodo que retorna a media de vento por mes no periodo entre 2015 e 2020
 mediaVentoMeses <- function () {
@@ -340,10 +330,7 @@ ggplot() + geom_bar(data = mediaVentoMeses, aes(x = factor(mes, levels = unique(
   axis.text = element_text(size = 13)
 )
 
-"""Os meses com maior média de vento são agosto, setembro e outubro, em razão desse período no planeta, apresentar um aumento da pressão no Atlântico-sul.
-
-### **Distribuição dos 100 dias mais quentes entre 2015 e 2020**
-"""
+"""### **Distribuição dos 100 dias mais quentes entre 2015 e 2020**"""
 
 # Metodo que retorna as cem maiores temperaturas no periodo entre 2015 e 2020
 getCemMaioresTemp <- function () {
