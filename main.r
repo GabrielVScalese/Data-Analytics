@@ -359,7 +359,7 @@ distribuicaoDasMaioresTemps = distribuicaoDasCemMaioresTemps(getCemMaioresTemp()
 porcentagens <- paste(round(100 * distribuicaoDasMaioresTemps$quantidade/ 100, 1), '%') # Obtencao da porcentagem de cada mes
 
 # Construcao do grafico de setores
-pie(distribuicaoDasMaioresTemps$quantidade, labels = porcentagens, main = "Distruibuição dos 100 dias mais quentes entre 2015 e 2020", col = rainbow(length(distribuicaoDasMaioresTemps$quantidade))) 
+pie(distribuicaoDasMaioresTemps$quantidade, labels = porcentagens, main = "Distribuição dos 100 dias mais quentes entre 2015 e 2020", col = rainbow(length(distribuicaoDasMaioresTemps$quantidade))) 
 legend("topleft", c('Janeiro', 'Fevereiro', 'Setembro', 'Outubro'), cex = 0.8,
    fill = rainbow(length(distribuicaoDasMaioresTemps$quantidade)))
 
