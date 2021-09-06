@@ -346,8 +346,6 @@ getCemMaioresTemp <- function () {
 
 # Metodo que retorna uma tabela com a distribuicao das maiores temperaturas nos meses
 distribuicaoDasMaioresTemps <- function (temps) {
-  quantidade = c()
-
   quantidades <- tapply(temps$temp, temps$horario, function (valores){
     length(valores)
   })
@@ -385,8 +383,6 @@ getCemMenoresTemp <- function () {
 
 # Metodo que retorna uma tabela com a distribuicao das maiores temperaturas nos meses
 distribuicaoDasMenoresTemps <- function (temps) {
-  quantidade = c()
-
   quantidades <- as.vector(tapply(temps$temp, temps$horario, function (valores){
     length(valores)
   }))
