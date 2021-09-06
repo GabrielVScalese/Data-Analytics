@@ -85,27 +85,27 @@ mediasPorMesEAno <- function () {
     valores = periodoValido[as.double(format(data, format="%m")) == mes, ]  # formatação dos valores
     
     #temperatura
-    if(media(valores$temp) > mediaTempMes){ # verifica se a temperatura armazenada é menor que a do mes atual
+    if(mean(valores$temp) > mediaTempMes){ # verifica se a temperatura armazenada é menor que a do mes atual
         # caso seja, é adicionado o mês atual e o valor da temperatura nos vetores de dados
-        mediaTempMes = media(valores$temp) 
+        mediaTempMes = mean(valores$temp) 
         mesTemp = meses[mes]
     }
     #vento
-    if(media(valores$ven) > mediaVentMes){ # verifica se o vento armazenado é menor que o do mes atual
+    if(mean(valores$ven) > mediaVentMes){ # verifica se o vento armazenado é menor que o do mes atual
         # caso seja, é adicionado o mês atual e o valor do vento nos vetores de dados
-        mediaVentMes = media(valores$ven)
+        mediaVentMes = mean(valores$ven)
         mesVent = meses[mes]
     }
     #umidade
-    if(media(valores$umid) > mediaUmiMes){ # verifica se a umidade armazenada é menor que a do mes atual
+    if(mean(valores$umid) > mediaUmiMes){ # verifica se a umidade armazenada é menor que a do mes atual
         # caso seja, é adicionado o mês atual e o valor da umidade nos vetores de dados
-        mediaUmiMes = media(valores$umid)
+        mediaUmiMes = mean(valores$umid)
         mesUmi = meses[mes]
     }
     #Sensação Térmica
-    if(media(valores$sensa) > mediaSensMes){ # verifica se a sensação térmica armazenada é menor que a do mes atual
+    if(mean(valores$sensa) > mediaSensMes){ # verifica se a sensação térmica armazenada é menor que a do mes atual
         # caso seja, é adicionado o mês atual e o valor da sensação térmica nos vetores de dados
-        mediaSensMes = media(valores$sensa)
+        mediaSensMes = mean(valores$sensa)
         mesSens = meses[mes]
     }
 
@@ -120,31 +120,32 @@ mediasPorMesEAno <- function () {
   # Seleção dos anos
   ano = 2015
   while(ano <= 2020){  # passa por todos os anos
-    data = as.Date(cepagri$horario, format='%d/%m/%Y') # formatação em data
-    valoresAnos = cepagri[as.double(format(data, format="%Y")) == ano,] # formatação dos valores
+    periodoValido = getPeriodoValido()
+    data = as.Date(periodoValido$horario, format='%d/%m/%Y') # formatação em data
+    valoresAnos = periodoValido[as.double(format(data, format="%Y")) == ano,] # formatação dos valores
 
     #temperatura
-    if(media(valoresAnos$temp) > mediaTempAno){ # verifica se a temperatura armazenada é menor que a do ano atual
+    if(mean(valoresAnos$temp) > mediaTempAno){ # verifica se a temperatura armazenada é menor que a do ano atual
         # caso seja, é adicionado o ano atual e o valor da temperatura nos vetores de dados
-        mediaTempAno = media(valoresAnos$temp)
+        mediaTempAno = mean(valoresAnos$temp)
         anoTemp = ano
     }
     #vento
-    if(media(valoresAnos$ven) > mediaVentAno){ # verifica se o vento armazenado é menor que o do ano atual
+    if(mean(valoresAnos$ven) > mediaVentAno){ # verifica se o vento armazenado é menor que o do ano atual
         # caso seja, é adicionado o ano atual e o valor do vento nos vetores de dados
-        mediaVentAno = media(valoresAnos$ven)
+        mediaVentAno = mean(valoresAnos$ven)
         anoVent = ano
     }
     #umidade
-    if(media(valoresAnos$umid) > mediaUmiAno){ # verifica se a umidade armazenada é menor que a do ano atual
+    if(mean(valoresAnos$umid) > mediaUmiAno){ # verifica se a umidade armazenada é menor que a do ano atual
         # caso seja, é adicionado o ano atual e o valor da umidade nos vetores de dados
-        mediaUmiAno = media(valoresAnos$umid)
+        mediaUmiAno = mean(valoresAnos$umid)
         anoUmi = ano
     }
     #Sensação Térmica
-    if(media(valoresAnos$sensa) > mediaSensAno){ # verifica se a sensação térmica armazenada é menor que a do ano atual
+    if(mean(valoresAnos$sensa) > mediaSensAno){ # verifica se a sensação térmica armazenada é menor que a do ano atual
         # caso seja, é adicionado o ano atual e o valor da sensação térmica nos vetores de dados
-        mediaSensAno = media(valoresAnos$sensa)
+        mediaSensAno = mean(valoresAnos$sensa)
         anoSens = ano
     }
 
@@ -344,16 +345,16 @@ getCemMaioresTemp <- function () {
   temps[order(temps$temp), ] # Uma outra ordenacao se torna necessaria apos a remocao de elementos
 }
 
-# Metodo que retorna uma tabela com a distribuicao das maiores temperaturas nos meses
-distribuicaoDasMaioresTemps <- function (temps) {
+# Metodo que retorna uma tabela com a distribuicao das temperaturas
+distribuicaoDasTemps <- function (temps) {
   quantidades <- tapply(temps$temp, temps$horario, function (valores){
     length(valores)
   })
-  
-  dataFrame = data.frame(mes = names(quantidades), quantidade = quantidades)
+
+  dataFrame = data.frame(mes = names(quantidades), quantidade = as.vector(quantidades))
 }
 
-distribuicaoDasMaioresTemps = distribuicaoDasMaioresTemps(getCemMaioresTemp())
+distribuicaoDasMaioresTemps = distribuicaoDasTemps(getCemMaioresTemp())
 
 porcentagens <- paste(round(100 * distribuicaoDasMaioresTemps$quantidade/ 100, 1), '%') # Obtencao da porcentagem de cada mes
 
@@ -374,21 +375,12 @@ getCemMenoresTemp <- function () {
   periodoValido = getPeriodoValido()
   periodoValido$horario <- as.double(format(as.Date(periodoValido$horario, format = '%d/%m/%Y'), format = '%Y'))
   
-  temps <- periodoValido[as.double(periodoValido$temp) < 7, ]
-
+  temps <- periodoValido[as.double(periodoValido$temp) < 7.5, ]
+ 
   temps[order(temps$temp), ] # Ordenando df por temperatura
-  temps <- tail(temps, -69) # Removendo as linhas adicionais
+  temps <- tail(temps, -37) # Removendo as linhas adicionais
   temps[order(temps$temp), ] # Uma outra ordenacao se torna necessaria apos a remocao de elementos
 }
 
-# Metodo que retorna uma tabela com a distribuicao das maiores temperaturas nos meses
-distribuicaoDasMenoresTemps <- function (temps) {
-  quantidades <- as.vector(tapply(temps$temp, temps$horario, function (valores){
-    length(valores)
-  }))
-  
-  dataFrame = data.frame(mes = unique(temps$horario), quantidade = quantidades)
-}
-
-distribuicaoDasMenoresTemps = distribuicaoDasMenoresTemps(getCemMenoresTemp())
+distribuicaoDasMenoresTemps = distribuicaoDasTemps(getCemMenoresTemp())
 distribuicaoDasMenoresTemps
